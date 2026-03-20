@@ -1,0 +1,114 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "codex-services"
+dynamic = ["version"]
+description = "Reusable business logic engines for Codex platform (CRM, finance, HR, inventory)"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "CodexDLC" }]
+keywords = ["booking", "scheduling", "calculator", "crm", "business", "waas"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "pydantic>=2.0,<3.0",
+    "codex-core", # Зависимость от ядра
+]
+
+[project.urls]
+Homepage = "https://github.com/codexdlc/codex-services"
+Documentation = "https://codexdlc.github.io/codex-services/"
+Repository = "https://github.com/codexdlc/codex-services"
+Issues = "https://github.com/codexdlc/codex-services/issues"
+
+[project.optional-dependencies]
+calendar = [
+    "holidays>=0.40",
+]
+all = [
+    "holidays>=0.40",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "pre-commit>=3.0",
+    "bandit>=1.7",
+    "pip-audit>=2.7",
+    "detect-secrets>=1.5",
+    "holidays>=0.40",
+]
+docs = [
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.0",
+    "mkdocstrings[python]>=0.24",
+    "mkdocs-include-markdown-plugin",
+    "mkdocs-static-i18n[material]>=1.2.0",
+    "mike>=2.0",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codex_services"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
+ignore = ["B008"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+    "loguru.*",
+    "holidays.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--cov=src/codex_services --cov-report=term-missing"
+markers = [
+    "unit: unit tests (no external dependencies)",
+    "integration: integration tests (may require external services)",
+]
+
+[tool.coverage.run]
+source = ["src/codex_services"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+fail_under = 90
+exclude_lines = [
+    "except ImportError",
+    "raise ImportError",
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "\\.\\.\\.\\s*$",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B602", "B605", "B607", "B404"]

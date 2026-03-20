@@ -1,0 +1,96 @@
+site_name: codex-services
+site_description: Reusable business logic engines for Codex platform
+site_author: Codex Team
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.breadcrumbs
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: "pymdownx.superfences.fence_code_format"
+
+plugins:
+  - search
+  - include-markdown
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_category_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            docstring_style: google
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Guide (EN):
+      - Architecture:
+          - Overview: en/architecture/README.md
+          - Booking Engine: en/architecture/booking_engine.md
+  - Руководство (RU):
+      - Архитектура:
+          - Обзор: ru/architecture/README.md
+          - Движок бронирования: ru/architecture/booking_engine.md
+  - API Reference:
+      - Overview: en/api/index.md
+      - Booking:
+          - Overview: en/api/booking/index.md
+          - Slot Master:
+              - Overview: en/api/booking/slot_master/index.md
+              - API: en/api/booking/slot_master/api.md
+              - Chain Finder: en/api/booking/slot_master/chain_finder.md
+              - DTO: en/api/booking/slot_master/dto.md
+              - Modes: en/api/booking/slot_master/modes.md
+              - Scorer: en/api/booking/slot_master/scorer.md
+          - Shared:
+              - Calculator: en/api/booking/shared/calculator.md
+              - DTO: en/api/booking/shared/dto.md
+              - Exceptions: en/api/booking/shared/exceptions.md
+              - Interfaces: en/api/booking/shared/interfaces.md
+              - Validators: en/api/booking/shared/validators.md
+      - Calendar:
+          - Overview: en/api/calendar/index.md
+          - Engine: en/api/calendar/engine.md
+  - Changelog: evolution/changelog.md

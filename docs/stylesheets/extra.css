@@ -1,0 +1,18 @@
+/* =============================================================
+   Codex DocSite Standard — extra.css
+   Navigation section/group headers — visually distinct
+   ============================================================= */
+
+.md-nav__item--section > .md-nav__link {
+  color: var(--md-typeset-a-color) !important;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.md-nav__item--section:not(:first-child) {
+  margin-top: 0.6em;
+  padding-top: 0.4em;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}

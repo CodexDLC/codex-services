@@ -1,0 +1,24 @@
+Project Structure: src
+======================
+
+📂 src/
+    📂 codex_services/
+        📄 __init__.py
+        📂 crm/
+            📄 __init__.py
+            📂 booking/
+                📄 __init__.py
+                📄 api.py
+                📄 chain_finder.py
+                📄 dto.py
+                📄 exceptions.py
+                📄 interfaces.py
+                📄 modes.py
+                📄 scorer.py
+                📄 validators.py
+            📂 calculator/
+                📄 __init__.py
+                📄 slot_calculator.py
+            📂 calendar/
+                📄 __init__.py
+                📄 engine.py
