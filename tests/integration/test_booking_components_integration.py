@@ -24,10 +24,10 @@ from codex_services.booking._shared.exceptions import (
 from codex_services.booking._shared.validators import BookingValidator
 from codex_services.booking.slot_master import SingleServiceSolution
 
-
 # ---------------------------------------------------------------------------
 # SlotCalculator
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.integration
 def test_calculator_invalid_step_raises() -> None:
@@ -104,7 +104,8 @@ def test_calculator_merge_free_windows_with_break() -> None:
     work_end = datetime(2024, 1, 1, 18, 0)
 
     windows = calc.merge_free_windows(
-        work_start, work_end,
+        work_start,
+        work_end,
         busy_intervals=[],
         break_interval=(datetime(2024, 1, 1, 13, 0), datetime(2024, 1, 1, 14, 0)),
     )
@@ -121,9 +122,7 @@ def test_calculator_merge_free_windows_with_buffer() -> None:
     work_end = datetime(2024, 1, 1, 18, 0)
     busy = [(datetime(2024, 1, 1, 10, 0), datetime(2024, 1, 1, 11, 0))]
 
-    windows = calc.merge_free_windows(
-        work_start, work_end, busy, buffer_minutes=10
-    )
+    windows = calc.merge_free_windows(work_start, work_end, busy, buffer_minutes=10)
     # After 11:00 there's a 10 min buffer → next free window starts at 11:10
     assert any(w[0] == datetime(2024, 1, 1, 11, 10) for w in windows)
 
@@ -140,9 +139,7 @@ def test_calculator_merge_free_windows_min_duration_filter() -> None:
         (datetime(2024, 1, 1, 11, 10), datetime(2024, 1, 1, 12, 0)),
     ]
 
-    windows = calc.merge_free_windows(
-        work_start, work_end, busy, min_duration_minutes=30
-    )
+    windows = calc.merge_free_windows(work_start, work_end, busy, min_duration_minutes=30)
     # The 10-minute gap (11:00-11:10) must be filtered out
     for w_start, w_end in windows:
         duration = (w_end - w_start).total_seconds() / 60
@@ -181,7 +178,7 @@ def test_calculator_find_gaps() -> None:
     """find_gaps returns windows meeting the minimum duration."""
     calc = SlotCalculator(step_minutes=30)
     free_windows = [
-        (datetime(2024, 1, 1, 9, 0), datetime(2024, 1, 1, 10, 0)),   # 60 min
+        (datetime(2024, 1, 1, 9, 0), datetime(2024, 1, 1, 10, 0)),  # 60 min
         (datetime(2024, 1, 1, 11, 0), datetime(2024, 1, 1, 11, 20)),  # 20 min — too short
         (datetime(2024, 1, 1, 14, 0), datetime(2024, 1, 1, 16, 0)),  # 120 min
     ]
@@ -254,26 +251,33 @@ def test_calculator_split_window_service_at_end() -> None:
 # BookingValidator
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.integration
 def test_validator_is_slot_free_no_conflict() -> None:
     """is_slot_free returns True when there's no overlap."""
     v = BookingValidator()
-    assert v.is_slot_free(
-        slot_start=datetime(2024, 1, 1, 11, 0),
-        slot_end=datetime(2024, 1, 1, 12, 0),
-        busy_intervals=[(datetime(2024, 1, 1, 9, 0), datetime(2024, 1, 1, 11, 0))],
-    ) is True
+    assert (
+        v.is_slot_free(
+            slot_start=datetime(2024, 1, 1, 11, 0),
+            slot_end=datetime(2024, 1, 1, 12, 0),
+            busy_intervals=[(datetime(2024, 1, 1, 9, 0), datetime(2024, 1, 1, 11, 0))],
+        )
+        is True
+    )
 
 
 @pytest.mark.integration
 def test_validator_is_slot_free_with_conflict() -> None:
     """is_slot_free returns False when there is an overlap."""
     v = BookingValidator()
-    assert v.is_slot_free(
-        slot_start=datetime(2024, 1, 1, 10, 30),
-        slot_end=datetime(2024, 1, 1, 11, 30),
-        busy_intervals=[(datetime(2024, 1, 1, 10, 0), datetime(2024, 1, 1, 11, 0))],
-    ) is False
+    assert (
+        v.is_slot_free(
+            slot_start=datetime(2024, 1, 1, 10, 30),
+            slot_end=datetime(2024, 1, 1, 11, 30),
+            busy_intervals=[(datetime(2024, 1, 1, 10, 0), datetime(2024, 1, 1, 11, 0))],
+        )
+        is False
+    )
 
 
 @pytest.mark.integration
@@ -282,13 +286,15 @@ def test_validator_no_conflicts_single_resource_sequential() -> None:
     v = BookingValidator()
     solutions = [
         SingleServiceSolution(
-            service_id="s1", resource_id="m1",
+            service_id="s1",
+            resource_id="m1",
             start_time=datetime(2024, 1, 1, 9, 0),
             end_time=datetime(2024, 1, 1, 10, 0),
             gap_end_time=datetime(2024, 1, 1, 10, 0),
         ),
         SingleServiceSolution(
-            service_id="s2", resource_id="m1",
+            service_id="s2",
+            resource_id="m1",
             start_time=datetime(2024, 1, 1, 10, 0),
             end_time=datetime(2024, 1, 1, 11, 0),
             gap_end_time=datetime(2024, 1, 1, 11, 0),
@@ -303,13 +309,15 @@ def test_validator_no_conflicts_detects_overlap() -> None:
     v = BookingValidator()
     solutions = [
         SingleServiceSolution(
-            service_id="s1", resource_id="m1",
+            service_id="s1",
+            resource_id="m1",
             start_time=datetime(2024, 1, 1, 9, 0),
             end_time=datetime(2024, 1, 1, 10, 30),
             gap_end_time=datetime(2024, 1, 1, 10, 30),
         ),
         SingleServiceSolution(
-            service_id="s2", resource_id="m1",
+            service_id="s2",
+            resource_id="m1",
             start_time=datetime(2024, 1, 1, 10, 0),
             end_time=datetime(2024, 1, 1, 11, 0),
             gap_end_time=datetime(2024, 1, 1, 11, 0),
@@ -323,7 +331,8 @@ def test_validator_solution_fits_in_windows_true() -> None:
     """solution_fits_in_windows returns True when slot fits inside a window."""
     v = BookingValidator()
     sol = SingleServiceSolution(
-        service_id="s1", resource_id="m1",
+        service_id="s1",
+        resource_id="m1",
         start_time=datetime(2024, 1, 1, 10, 0),
         end_time=datetime(2024, 1, 1, 11, 0),
         gap_end_time=datetime(2024, 1, 1, 11, 0),
@@ -337,7 +346,8 @@ def test_validator_solution_fits_in_windows_false() -> None:
     """solution_fits_in_windows returns False when slot goes outside a window."""
     v = BookingValidator()
     sol = SingleServiceSolution(
-        service_id="s1", resource_id="m1",
+        service_id="s1",
+        resource_id="m1",
         start_time=datetime(2024, 1, 1, 11, 30),
         end_time=datetime(2024, 1, 1, 12, 30),
         gap_end_time=datetime(2024, 1, 1, 12, 30),
@@ -349,6 +359,7 @@ def test_validator_solution_fits_in_windows_false() -> None:
 # ---------------------------------------------------------------------------
 # Shared base DTOs
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.integration
 def test_resource_availability_invalid_window_raises() -> None:
@@ -389,6 +400,7 @@ def test_booking_result_has_solutions_not_implemented() -> None:
 # ---------------------------------------------------------------------------
 # Exception classes
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.integration
 def test_booking_engine_error_default_message() -> None:

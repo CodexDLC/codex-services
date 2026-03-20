@@ -67,9 +67,7 @@ def test_get_month_matrix_selected_date_active() -> None:
     """selected_date is marked as 'active'."""
     today = date(2024, 5, 1)
     selected = date(2024, 5, 20)
-    matrix = CalendarEngine.get_month_matrix(
-        year=2024, month=5, today=today, selected_date=selected
-    )
+    matrix = CalendarEngine.get_month_matrix(year=2024, month=5, today=today, selected_date=selected)
 
     active_days = [d for d in matrix if d.get("status") == "active"]
     assert len(active_days) == 1
@@ -81,9 +79,7 @@ def test_get_month_matrix_holiday_status() -> None:
     """German public holidays are marked as 'holiday'."""
     # 2024-10-03 is German Unity Day (nationwide holiday)
     today = date(2024, 9, 1)
-    matrix = CalendarEngine.get_month_matrix(
-        year=2024, month=10, today=today, holidays_subdiv="BE"
-    )
+    matrix = CalendarEngine.get_month_matrix(year=2024, month=10, today=today, holidays_subdiv="BE")
 
     unity_day = [d for d in matrix if d.get("date") == "2024-10-03"]
     assert len(unity_day) == 1
@@ -121,9 +117,7 @@ def test_get_month_matrix_different_subdivisions() -> None:
     """Different holiday subdivisions produce valid matrices."""
     today = date(2024, 1, 1)
     for subdiv in ("BY", "NW", "ST", "HH"):
-        matrix = CalendarEngine.get_month_matrix(
-            year=2024, month=12, today=today, holidays_subdiv=subdiv
-        )
+        matrix = CalendarEngine.get_month_matrix(year=2024, month=12, today=today, holidays_subdiv=subdiv)
         assert len(matrix) > 0
 
 
