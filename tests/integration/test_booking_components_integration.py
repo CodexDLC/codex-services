@@ -364,7 +364,7 @@ def test_validator_solution_fits_in_windows_false() -> None:
 @pytest.mark.integration
 def test_resource_availability_invalid_window_raises() -> None:
     """ResourceAvailability raises ValueError when start >= end."""
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         ResourceAvailability(
             resource_id="m1",
             free_windows=[(datetime(2024, 1, 1, 12, 0), datetime(2024, 1, 1, 9, 0))],
