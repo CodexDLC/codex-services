@@ -8,21 +8,19 @@ dynamic = ["version"]
 description = "Reusable business logic engines for Codex platform (CRM, finance, HR, inventory)"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "Apache-2.0" }
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{ name = "CodexDLC" }]
 keywords = ["booking", "scheduling", "calculator", "crm", "business", "waas"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
     "pydantic>=2.0,<3.0",
-    "codex-core", # Зависимость от ядра
+    "codex-core>=0.2.0,<0.3.0", # Зависимость от ядра
 ]
 
 [project.urls]
@@ -66,7 +64,7 @@ source = "vcs"
 packages = ["src/codex_services"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 line-length = 120
 
 [tool.ruff.lint]
@@ -74,7 +72,7 @@ select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
 ignore = ["B008"]
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
 

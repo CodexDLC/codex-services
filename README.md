@@ -20,6 +20,18 @@ pip install codex-services
 pip install "codex-services[calendar]"
 ```
 
+Requires Python 3.12 or newer.
+
+## Development
+
+```bash
+uv sync --extra dev
+uv run pytest
+uv run mypy src/
+uv run pre-commit run --all-files
+uv build --no-sources
+```
+
 ## Quick Start
 
 ```python

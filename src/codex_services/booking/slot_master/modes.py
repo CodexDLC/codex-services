@@ -7,15 +7,7 @@ Imports:
     from codex_services.booking.slot_master import BookingMode
 """
 
-import sys
-from enum import Enum
-
-if sys.version_info >= (3, 11):  # pragma: no cover
-    from enum import StrEnum  # pragma: no cover
-else:
-
-    class StrEnum(str, Enum):
-        pass
+from enum import StrEnum
 
 
 class BookingMode(StrEnum):
