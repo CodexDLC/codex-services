@@ -7,6 +7,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-04-05
+
+### Changed
+- **Core dependency**:
+  - Updated the supported `codex-core` dependency range to `>=0.3.0,<1.0.0` so the package remains compatible with the planned pre-`1.0` `codex-core` line without repeated dependency-range bumps.
+- **Development tooling**:
+  - Moved project quality-gate policy into `[tool.codex-check]` in `pyproject.toml`.
+  - Simplified `tools/dev/check.py` to a thin launcher compatible with the `codex-core 0.3.x` runner flow.
+
 ## [0.1.2] - 2026-03-29
 
 ### Added

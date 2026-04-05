@@ -20,7 +20,7 @@ classifiers = [
 ]
 dependencies = [
     "pydantic>=2.0,<3.0",
-    "codex-core>=0.2.0,<0.3.0", # Зависимость от ядра
+    "codex-core>=0.3.0,<1.0.0", # Зависимость от ядра
 ]
 
 [project.urls]
@@ -110,3 +110,12 @@ exclude_lines = [
 [tool.bandit]
 exclude_dirs = ["tests"]
 skips = ["B602", "B605", "B607", "B404"]
+
+[tool.codex-check]
+project-name = "codex-services"
+audit-flags = "--skip-editable --ignore-vuln CVE-2026-4539"
+integration-requires = "pure Python, no external deps"
+test-stages = ["unit", "integration"]
+prompt-test-stages = ["integration"]
+test-paths = ["tests"]
+types-paths = ["src"]

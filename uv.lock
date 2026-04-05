@@ -190,15 +190,15 @@ wheels = [
 
 [[package]]
 name = "codex-core"
-version = "0.2.0"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/35/dc/6225a11ac1bbb21a495beebf05c047b75792a31884c5aa30d78172d3d909/codex_core-0.2.0.tar.gz", hash = "sha256:1058cb69beceb779d2b0d87e292a1d01e0d1d0467a09ceb1419dc552b7048981", size = 46707, upload-time = "2026-03-19T10:26:34.211Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/55/11335e1bfa46861b9e7a38678bf8d8438419c23affbe7a1d6210a986d963/codex_core-0.3.0.tar.gz", hash = "sha256:3dc573d1c3f8e1b88ceb563835bd4fec14c498884a76bca11daffbb3d9d78347", size = 125208, upload-time = "2026-04-04T21:32:34.837Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a2/66/3de600e984d3c59e9ea9fda7ecf4754a2d5d515189f77d443772dd3584c1/codex_core-0.2.0-py3-none-any.whl", hash = "sha256:e3279a2916e431ce71705570373bac6961512962d776e34ebdb7ccc98703d0ac", size = 28734, upload-time = "2026-03-19T10:26:32.406Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/67/7ab0dea9a79ff0085343468a473b084e3bbefe03b75ea67da6307eb3cc1e/codex_core-0.3.0-py3-none-any.whl", hash = "sha256:c1ee78a1f1629d5bdc79d511870fc65c14d29f3ab6287ecc62f31a199c216772", size = 33021, upload-time = "2026-04-04T21:32:33.426Z" },
 ]
 
 [[package]]
@@ -240,7 +240,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "bandit", marker = "extra == 'dev'", specifier = ">=1.7" },
-    { name = "codex-core", specifier = ">=0.2.0,<0.3.0" },
+    { name = "codex-core", specifier = ">=0.3.0,<1.0.0" },
     { name = "detect-secrets", marker = "extra == 'dev'", specifier = ">=1.5" },
     { name = "holidays", marker = "extra == 'all'", specifier = ">=0.40" },
     { name = "holidays", marker = "extra == 'calendar'", specifier = ">=0.40" },
