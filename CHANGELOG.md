@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Source-development skill in `.agents/skills/codex-services-development`, linked from project agent instructions.
 
 ### Changed
+- Moved development graph navigation to a library-local, Git-ignored `graphify-out/` with reproducible source-scoped generation.
 - CI enforces the existing 90% coverage threshold on the full test suite after the Python-version unit-test matrix.
 - Documented agent skill installation, discovery, updates, and local-edit recovery; corrected the README booking example to use the current dictionary API.
 - Translated all Russian comments and Pydantic field descriptions to English across `booking/_shared/calculator.py` and `booking/slot_master/dto.py`.

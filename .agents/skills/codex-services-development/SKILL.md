@@ -9,7 +9,7 @@ description: Develop and validate the codex-services library itself, including b
 
 This repository publishes `codex-services` through `pyproject.toml` and `.github/workflows/publish.yml`. Keep development guidance here. Consumer guidance belongs in `src/codex_services/agent_skills/resources/`; do not install that managed copy over this development skill.
 
-Read root `AGENTS.md` for the shared graph location. Use the graph wiki for orientation, then inspect the relevant current source and tests: graph edges may be inferred or stale.
+Read `.agents/rules/graphify.md` for the library-local `graphify-out/` scope and rebuild command. Use the local report (and wiki when present) for orientation, then inspect the relevant current source and tests: graph edges may be inferred or stale. Cross-library contracts belong in public APIs and the relevant library skills, not a shared workspace graph.
 
 - Booking search: `src/codex_services/booking/slot_master/` and `tests/unit/`, `tests/integration/`; architecture context in `docs/en/architecture/booking_engine.md`.
 - Slot arithmetic and provider contracts: `src/codex_services/booking/_shared/`.
@@ -34,4 +34,4 @@ For packaging or skill payload changes, build with `uv build --no-sources`, insp
 
 Version comes from Git tags via hatch-vcs. Record pending changes under `CHANGELOG.md` Unreleased; a local dirty-build version is not a release tag. Publishing is triggered by a `v*` tag. Preparing a release does not itself authorize creating/pushing that tag or publishing.
 
-After source changes, follow the root graph-update instruction. If the shared graph is outside permitted writes or its tool fails, report that limitation rather than claiming it was refreshed.
+After changes affecting graph inputs, rebuild the local graph using `.agents/rules/graphify.md`. Keep generated graph files out of Git and release artifacts; commit only build rules and instructions. If the graph is missing or rebuilding fails, inspect current sources and report the limitation rather than treating a stale graph as current.

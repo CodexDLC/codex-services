@@ -32,6 +32,18 @@ uv run pre-commit run --all-files
 uv build --no-sources
 ```
 
+### Local code graph
+
+For source-checkout navigation, install Graphify separately and run from this repository root:
+
+```bash
+graphify update .
+```
+
+This builds an AST-only code graph in `graphify-out/`, using `.graphifyignore` to exclude environments, caches, and generated outputs. It does not use the parent workspace graph or an LLM API. Read documentation and skills directly for explanations beyond the code structure; this command does not perform semantic documentation extraction or generate a wiki.
+
+The graph is generated local data and is not committed or shipped in releases. Commit only `.graphifyignore` and the build instructions. See [.agents/rules/graphify.md](.agents/rules/graphify.md) for navigation and refresh rules.
+
 ## Quick Start
 
 ```python
