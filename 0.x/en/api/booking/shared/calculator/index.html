@@ -569,6 +569,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agent_skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optional agent skill
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2455,7 +2483,7 @@ Used inside ChainFinder, and can also be applied independently.</p>
 <span class="sd">                          Determines the interval at which slots are offered.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">step_minutes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step_minutes должен быть &gt; 0, получен: </span><span class="si">{</span><span class="n">step_minutes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step_minutes must be &gt; 0, got: </span><span class="si">{</span><span class="n">step_minutes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step_minutes</span> <span class="o">=</span> <span class="n">step_minutes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_step_delta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">step_minutes</span><span class="p">)</span>
 
@@ -2493,19 +2521,19 @@ Used inside ChainFinder, and can also be applied independently.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">duration_delta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">duration_minutes</span><span class="p">)</span>
 
-        <span class="c1"># Быстрая проверка: окно в принципе достаточно для услуги</span>
+        <span class="c1"># Quick check: window is large enough for the service</span>
         <span class="k">if</span> <span class="n">window_end</span> <span class="o">-</span> <span class="n">window_start</span> <span class="o">&lt;</span> <span class="n">duration_delta</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="n">slots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">current</span> <span class="o">=</span> <span class="n">window_start</span>
 
-        <span class="c1"># Если есть min_start — двигаем указатель к ближайшему шагу сетки</span>
+        <span class="c1"># If min_start is set — advance the pointer to the nearest grid step</span>
         <span class="k">if</span> <span class="n">min_start</span> <span class="ow">and</span> <span class="n">current</span> <span class="o">&lt;</span> <span class="n">min_start</span><span class="p">:</span>
             <span class="n">current</span> <span class="o">=</span> <span class="n">min_start</span>
 
-        <span class="c1"># Если задан якорь — выравниваем текущую позицию по сетке относительно якоря</span>
-        <span class="c1"># Если якоря нет — по умолчанию выравниваем по началу окна (обратная совместимость)</span>
+        <span class="c1"># If an anchor is provided — align the current position to the grid relative to the anchor</span>
+        <span class="c1"># If no anchor — align to the window start by default (backward compatibility)</span>
         <span class="n">anchor</span> <span class="o">=</span> <span class="n">grid_anchor</span> <span class="ow">or</span> <span class="n">window_start</span>
         <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_align_to_grid</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">anchor</span><span class="p">)</span>
 
@@ -2812,7 +2840,7 @@ Used inside ChainFinder, and can also be applied independently.</p>
 <span class="sd">                      Determines the interval at which slots are offered.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">step_minutes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step_minutes должен быть &gt; 0, получен: </span><span class="si">{</span><span class="n">step_minutes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step_minutes must be &gt; 0, got: </span><span class="si">{</span><span class="n">step_minutes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">step_minutes</span> <span class="o">=</span> <span class="n">step_minutes</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_step_delta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">step_minutes</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -3064,19 +3092,19 @@ fit within the end of the window.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">duration_delta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">duration_minutes</span><span class="p">)</span>
 
-    <span class="c1"># Быстрая проверка: окно в принципе достаточно для услуги</span>
+    <span class="c1"># Quick check: window is large enough for the service</span>
     <span class="k">if</span> <span class="n">window_end</span> <span class="o">-</span> <span class="n">window_start</span> <span class="o">&lt;</span> <span class="n">duration_delta</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="n">slots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">current</span> <span class="o">=</span> <span class="n">window_start</span>
 
-    <span class="c1"># Если есть min_start — двигаем указатель к ближайшему шагу сетки</span>
+    <span class="c1"># If min_start is set — advance the pointer to the nearest grid step</span>
     <span class="k">if</span> <span class="n">min_start</span> <span class="ow">and</span> <span class="n">current</span> <span class="o">&lt;</span> <span class="n">min_start</span><span class="p">:</span>
         <span class="n">current</span> <span class="o">=</span> <span class="n">min_start</span>
 
-    <span class="c1"># Если задан якорь — выравниваем текущую позицию по сетке относительно якоря</span>
-    <span class="c1"># Если якоря нет — по умолчанию выравниваем по началу окна (обратная совместимость)</span>
+    <span class="c1"># If an anchor is provided — align the current position to the grid relative to the anchor</span>
+    <span class="c1"># If no anchor — align to the window start by default (backward compatibility)</span>
     <span class="n">anchor</span> <span class="o">=</span> <span class="n">grid_anchor</span> <span class="ow">or</span> <span class="n">window_start</span>
     <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_align_to_grid</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">anchor</span><span class="p">)</span>
 
