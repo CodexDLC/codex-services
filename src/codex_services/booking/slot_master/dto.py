@@ -28,7 +28,7 @@ from codex_services.booking._shared.dto import (
 from .modes import BookingMode
 
 # ---------------------------------------------------------------------------
-# Входные DTO (что подаётся в движок)
+# Input DTOs (passed to the engine)
 # ---------------------------------------------------------------------------
 
 
@@ -74,12 +74,14 @@ class ServiceRequest(BaseDTO):
     """
 
     service_id: str
-    duration_minutes: int = Field(gt=0, description="Длительность в минутах")
-    min_gap_after_minutes: int = Field(default=0, ge=0, description="Пауза после услуги перед следующей")
-    possible_resource_ids: list[str] = Field(min_length=1, description="Хотя бы один ресурс должен быть указан")
+    duration_minutes: int = Field(gt=0, description="Service duration in minutes")
+    min_gap_after_minutes: int = Field(
+        default=0, ge=0, description="Pause after this service before the next one in the chain"
+    )
+    possible_resource_ids: list[str] = Field(min_length=1, description="At least one resource must be specified")
     parallel_group: str | None = Field(
         default=None,
-        description="Метка группы параллельного выполнения (одинаковый тег = одновременно)",
+        description="Parallel execution group tag (same tag = run simultaneously)",
     )
 
     @property
@@ -140,25 +142,25 @@ class BookingEngineRequest(BookingRequest):
         ```
     """
 
-    service_requests: list[ServiceRequest] = Field(min_length=1, description="Минимум одна услуга")
+    service_requests: list[ServiceRequest] = Field(min_length=1, description="At least one service required")
     mode: BookingMode = BookingMode.SINGLE_DAY
     overlap_allowed: bool = Field(
         default=False,
-        description="Разрешить параллельное выполнение услуг разными ресурсами",
+        description="Allow parallel execution of services by different resources",
     )
     group_size: int = Field(
         default=1,
         ge=1,
-        description="DEPRECATED. Используйте дублирование ServiceRequest с parallel_group.",
+        description="DEPRECATED. Use ServiceRequest duplication with parallel_group instead.",
     )
     max_chain_duration_minutes: int | None = Field(
         default=None,
         ge=1,
-        description="Макс. длительность всей цепочки в минутах (None = без лимита)",
+        description="Max total chain duration in minutes (None = unlimited)",
     )
     days_gap: list[int] | None = Field(
         default=None,
-        description="Смещение в днях для каждой услуги (только MULTI_DAY)",
+        description="Day offset per service (MULTI_DAY mode only)",
     )
 
     @property
@@ -179,7 +181,7 @@ class BookingEngineRequest(BookingRequest):
 
 
 # ---------------------------------------------------------------------------
-# Данные доступности (подготавливаются адаптером)
+# Availability data (prepared by the adapter)
 # ---------------------------------------------------------------------------
 
 
@@ -209,7 +211,7 @@ class MasterAvailability(ResourceAvailability):
     buffer_between_minutes: int = Field(default=0, ge=0)
     work_start: datetime | None = Field(
         default=None,
-        description="Якорь для выравнивания сетки слотов (например, начало смены)",
+        description="Anchor for slot grid alignment (e.g., shift start time)",
     )
 
     def __repr__(self) -> str:
@@ -217,7 +219,7 @@ class MasterAvailability(ResourceAvailability):
 
 
 # ---------------------------------------------------------------------------
-# Выходные DTO (результат работы движка)
+# Output DTOs (engine results)
 # ---------------------------------------------------------------------------
 
 
@@ -282,7 +284,7 @@ class BookingChainSolution(BaseDTO):
     """
 
     items: list[SingleServiceSolution] = Field(min_length=1)
-    score: float = Field(default=0.0, description="Оценка качества решения")
+    score: float = Field(default=0.0, description="Solution quality score")
 
     @property
     def starts_at(self) -> datetime:
@@ -378,7 +380,7 @@ class EngineResult(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Waitlist DTO (результат find_nearest / waitlist-уведомлений)
+# Waitlist DTOs (find_nearest / waitlist notification results)
 # ---------------------------------------------------------------------------
 
 

@@ -1,0 +1,1 @@
+"""Packaged consumer skill resources."""

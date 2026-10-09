@@ -69,6 +69,7 @@ nav:
       - Architecture:
           - Overview: en/architecture/README.md
           - Booking Engine: en/architecture/booking_engine.md
+      - Optional agent skill: en/agent_skills.md
   - Руководство (RU):
       - Архитектура:
           - Обзор: ru/architecture/README.md

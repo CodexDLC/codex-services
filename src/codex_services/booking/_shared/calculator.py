@@ -50,7 +50,7 @@ class SlotCalculator:
                           Determines the interval at which slots are offered.
         """
         if step_minutes <= 0:
-            raise ValueError(f"step_minutes должен быть > 0, получен: {step_minutes}")
+            raise ValueError(f"step_minutes must be > 0, got: {step_minutes}")
         self.step_minutes = step_minutes
         self._step_delta = timedelta(minutes=step_minutes)
 
@@ -88,19 +88,19 @@ class SlotCalculator:
         """
         duration_delta = timedelta(minutes=duration_minutes)
 
-        # Быстрая проверка: окно в принципе достаточно для услуги
+        # Quick check: window is large enough for the service
         if window_end - window_start < duration_delta:
             return []
 
         slots: list[datetime] = []
         current = window_start
 
-        # Если есть min_start — двигаем указатель к ближайшему шагу сетки
+        # If min_start is set — advance the pointer to the nearest grid step
         if min_start and current < min_start:
             current = min_start
 
-        # Если задан якорь — выравниваем текущую позицию по сетке относительно якоря
-        # Если якоря нет — по умолчанию выравниваем по началу окна (обратная совместимость)
+        # If an anchor is provided — align the current position to the grid relative to the anchor
+        # If no anchor — align to the window start by default (backward compatibility)
         anchor = grid_anchor or window_start
         current = self._align_to_grid(current, anchor)
 

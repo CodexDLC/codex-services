@@ -4,7 +4,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/codex-services.svg)](https://pypi.org/project/codex-services/)
 [![Python](https://img.shields.io/pypi/pyversions/codex-services.svg)](https://pypi.org/project/codex-services/)
 [![CI](https://github.com/codexdlc/codex-services/actions/workflows/ci.yml/badge.svg)](https://github.com/codexdlc/codex-services/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 Pure-Python business logic engines for booking, scheduling, and CRM workflows.
 No ORM, no framework dependencies — drop into any Python project or use as a building block inside the Codex ecosystem.
@@ -35,21 +35,39 @@ uv build --no-sources
 ## Quick Start
 
 ```python
-from codex_services.booking.slot_master import find_slots, BookingEngineRequest, ServiceRequest, BookingMode
-from datetime import date
+from codex_services.booking.slot_master import find_slots
 
-request = BookingEngineRequest(
-    service_requests=[
-        ServiceRequest(service_id="haircut", duration_minutes=60, possible_master_ids=["m1", "m2"]),
+result = find_slots(
+    request_data={
+        "booking_date": "2026-10-12",
+        "service_requests": [
+            {"service_id": "haircut", "duration_minutes": 60, "possible_resource_ids": ["m1"]},
+        ],
+    },
+    resources_availability=[
+        {"resource_id": "m1", "free_windows": [["2026-10-12T09:00:00", "2026-10-12T11:00:00"]]},
     ],
-    booking_date=date.today(),
-    mode=BookingMode.SINGLE_DAY,
 )
-
-result = find_slots(request, masters_availability=[...])
-if result.has_solutions:
-    print(result.best.starts_at)
+for chain in result["solutions"]:
+    print(chain["items"][0]["start_time"])
 ```
+
+## Optional agent skill
+
+Starting with **0.1.4**, the package includes an optional skill that helps coding agents use its booking, slot arithmetic, and calendar APIs. The skill is bundled with the library; no separate plugin or download is needed.
+
+From the root of a consuming project, using the Python environment where `codex-services` is installed:
+
+```bash
+python -m codex_services.agent_skills install --project .
+python -m codex_services.agent_skills status --project .
+```
+
+`install` copies the versioned guide to `.agents/skills/codex-services` and adds a scoped instruction to the project's `AGENTS.md`. The installer stores file hashes in `.manifest.json`; `update` and `delete` refuse to replace locally edited managed files. Put local rules in a separate project-owned skill. The installer preserves unrelated files and `AGENTS.md` content, and no skill is installed as part of importing or installing the package.
+
+After upgrading the Python package, refresh the project's skill with `python -m codex_services.agent_skills update --project .`. To remove the managed skill, use `python -m codex_services.agent_skills delete --project .`.
+
+See the [agent skill guide](docs/en/agent_skills.md) for paths with spaces, status checks, updates, and local-edit recovery.
 
 ## Modules
 
