@@ -7,6 +7,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-10-09
+
+### Added
+- Packaged consumer agent skill with booking and calendar usage guidance and an offline install/update/delete/status CLI.
+- Source-development skill in `.agents/skills/codex-services-development`, linked from project agent instructions.
+
+### Changed
+- CI enforces the existing 90% coverage threshold on the full test suite after the Python-version unit-test matrix.
+- Documented agent skill installation, discovery, updates, and local-edit recovery; corrected the README booking example to use the current dictionary API.
+- Translated all Russian comments and Pydantic field descriptions to English across `booking/_shared/calculator.py` and `booking/slot_master/dto.py`.
+
+### Security
+- Refreshed vulnerable locked dependencies (`idna`, `msgpack`, `pip`, `pydantic-settings`, `pytest`, `urllib3`, and `virtualenv`) within the existing package constraints, including the required `python-discovery` update.
+
 ## [0.1.3] - 2026-04-05
 
 ### Changed
